@@ -1,0 +1,8 @@
+{
+  "name": "chatbot",
+  "main": "index.js",
+  "packages": [
+    "open-korean-text-node@2.2.0"
+  ],
+  "localeDir": "locales/"
+}
