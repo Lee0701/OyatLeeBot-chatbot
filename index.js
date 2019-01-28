@@ -2,7 +2,6 @@
 const chatbot = require('./src/chatbot.js')
 
 let API = undefined
-let BOT_ADMIN = []
 
 const MSG_ACCESS_DENIED = 'bot_access_denied'
 const HELP_CHAT = 'chatbot_help_chat'
@@ -80,7 +79,7 @@ const onTeach = function(stream) {
 const onAdmin = function(stream) {
   const chatId = stream.msg.chat.id
   const text = stream.args
-  if(!BOT_ADMIN.includes(stream.msg.from.id)) {
+  if(!API.getBotConfig('botAdmin').includes(stream.msg.from.id)) {
     stream.write(API.getUserString(stream.msg.from.id, MSG_ACCESS_DENIED, []))
     return
   }
@@ -139,7 +138,7 @@ const onAdmin = function(stream) {
 const onFlushRequest = function(stream) {
   const text = 'New flush request from @' + stream.msg.from.username + (stream.args ? ' : ' + stream.args : '')
 
-  for(let id of BOT_ADMIN)
+  for(let id of API.getBotConfig('botAdmin'))
     API.sendMessage(id, text)
 }
 
@@ -149,7 +148,6 @@ const logChat = function(text, reply) {
 
 module.exports = function(botApi) {
   API = botApi
-  BOT_ADMIN = JSON.parse(API.getConfig('botAdmin'))
   API.addListener(700, onMessage)
   API.addCommand('ch|챗', onChat, HELP_CHAT)
   API.addCommand('teach', onTeach, HELP_TEACH)

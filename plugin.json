@@ -2,6 +2,7 @@
   "name": "chatbot",
   "main": "index.js",
   "packages": [
+    "node-wget@0.4.3",
     "open-korean-text-node@2.2.0"
   ],
   "localeDir": "locales/"
